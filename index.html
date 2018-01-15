@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Pagina Administracion</title>
+	<meta charset="utf-8">
+</head>
+<body>
+<h2>Pagina de administracion</h2>
+
+<div>
+	<input type="file" name="imagen" onchange="uploadImage()" /><br/><br/><br/>
+	<img src="" height="300" alt="Imagen de Platillo" id="imgdish">
+</div>
+
+<div>
+	<form onsubmit="saveDish()">
+		Nombre: <input type="text" name="nombre" id="nombre"><br></br>
+		Descripcion: <textarea id="descripcion"></textarea><br></br>
+		precio:	<input type="text" name="precio" id="precio"><br></br>
+		<input type="submit" name="Subir">
+	</form>
+</div>
+
+
+</body>
+
+<script src="https://www.gstatic.com/firebasejs/4.8.2/firebase.js"></script>
+
+
+<script type="text/javascript" src="index.js"></script>
+</html>
