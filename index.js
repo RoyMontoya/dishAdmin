@@ -15,7 +15,7 @@ var database = firebase.database();
 
 function formFunc() {
 	var nombre = document.getElementById("nombre").value;
-	var description = document.getElementById("description").value;
+	var description = document.getElementById("descripcion").value;
 	var precio = document.getElementById("precio").value;
 
 	saveDish(nombre, description, precio);
@@ -28,6 +28,9 @@ var saveDish = function(pName, pDesc, pPrice){
 		quantity: 0});
 }
 
+var storage = firebase.storage();
+var storageRef = storage.ref();
+
 function uploadImage(){
 	var preview = document.querySelector('img');
 	var file = document.querySelector('input[type=file]').files[0];
@@ -39,6 +42,15 @@ function uploadImage(){
 
 	if(file){
 		reader.readAsDataURL(file);
+		var upload = storageRef.child('dishes/' + file.name).put(file);
+
+		upload.on('state_changed', function(snapshot){
+
+		}, function(error){
+			console.log("error " + error)
+		}, function(){
+			console.log(upload.snapshot.downloadURL);
+		})
 	}else{
 		preview.src = "";
 	}
