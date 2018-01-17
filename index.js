@@ -17,14 +17,27 @@ function formFunc() {
 	var nombre = document.getElementById("nombre").value;
 	var description = document.getElementById("descripcion").value;
 	var precio = document.getElementById("precio").value;
+	var imagen = document.getElementById("imgDir").value;
 
-	saveDish(nombre, description, precio);
+	saveDish(nombre, description, precio, imagen);
 }
 
-var saveDish = function(pName, pDesc, pPrice){
+var printDishes = function(){
+	var query = database.ref('dishes/');
+query.on('value', function(snapshot){
+	snapshot.forEach(function(childSnapshot)){
+		console.log(childSnapshot.key);
+		console.log(childSnapshot.val();
+	}
+});
+}
+
+
+var saveDish = function(pName, pDesc, pPrice, pPath){
 	database.ref('dishes/').push({name: pName,
 		description: pDesc,
 		precio: pPrice,
+		path: pPath,
 		quantity: 0});
 }
 
@@ -50,6 +63,7 @@ function uploadImage(){
 			console.log("error " + error)
 		}, function(){
 			console.log(upload.snapshot.downloadURL);
+			document.getElementById("imgDir").value = upload.snapshot.downloadURL;
 		})
 	}else{
 		preview.src = "";

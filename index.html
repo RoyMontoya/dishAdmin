@@ -6,6 +6,7 @@
 </head>
 <body>
 <h2>Pagina de administracion</h2>
+<a href="dishes.html">Dishes</a>
 
 <div>
 	<input type="file" name="imagen" onchange="uploadImage()" /><br/><br/><br/>
@@ -14,9 +15,10 @@
 
 <div>
 	<form onsubmit="formFunc()">
-		Nombre: <input type="text" name="nombre" id="nombre"><br></br>
-		Descripcion: <textarea id="descripcion"></textarea><br></br>
-		precio:	<input type="text" name="precio" id="precio"><br></br>
+		Nombre: <input type="text" name="nombre" id="nombre" required><br></br>
+		Descripcion: <textarea id="descripcion" required></textarea><br></br>
+		precio:	<input type="text" name="precio" id="precio" required><br></br>
+		Direccion Imagen:<input type="text" name="direccion" id="imgDir" required><br></br>
 		<input type="submit" name="Subir">
 	</form>
 </div>
