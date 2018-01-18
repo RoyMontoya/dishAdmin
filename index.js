@@ -24,11 +24,33 @@ function formFunc() {
 
 var printDishes = function(){
 	var query = database.ref('dishes/');
+	
+
 query.on('value', function(snapshot){
-	snapshot.forEach(function(childSnapshot)){
+	var list = document.getElementById("list");
+	snapshot.forEach(function(childSnapshot){
 		console.log(childSnapshot.key);
-		console.log(childSnapshot.val();
-	}
+		console.log(childSnapshot.val());
+			var childKey = childSnapshot.key;
+			var childData = childSnapshot.val();
+
+			var li = document.createElement("li");
+			var div = document.createElement("div");
+			var img = document.createElement("img");
+			var br = document.createElement("br");
+
+			img.src = childData.path;
+			img.height = 60;
+			img.alt = "Dish Image";
+
+			div.appendChild(img);
+			li.appendChild(div);
+			li.appendChild(document.createTextNode("Nombre: " + childData.name));
+			li.appendChild(document.createTextNode("Description: " + childData.description));
+			li.appendChild(document.createTextNode("Price: " + childData.precio));
+
+			list.appendChild(li);
+	})
 });
 }
 
