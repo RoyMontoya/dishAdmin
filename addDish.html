@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Pagina Administracion</title>
+	<meta charset="utf-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+</head>
+<body>
+	<div class="container">
+		<div class="jumbotron">
+<h2>Pagina de administracion</h2>
+</div>
+
+
+<ul class="nav nav-pills">
+	<li role="presentation" class="active">
+		<a href="dishes.html">Dishes</a>
+	</li>
+</ul>
+<div>
+	<input type="file" name="imagen" onchange="uploadImage()" /><br/><br/><br/>
+	<img src="" height="300" alt="Imagen de Platillo" id="imgdish">
+</div>
+
+<div>
+	<form onsubmit="formFunc()">
+		Nombre: <input class="form-control" type="text" name="nombre" id="nombre" required><br></br>
+		Descripcion: <textarea class="form-control" id="descripcion" required></textarea><br></br>
+		precio:	<input class="form-control" type="text" name="precio" id="precio" required><br></br>
+		Direccion Imagen:<input class="form-control" type="text" name="direccion" id="imgDir" required><br></br>
+		<input class="btn btn-success" type="submit" name="Subir">
+	</form>
+</div>
+</div>
+</div>
+
+</body>
+
+<script src="https://www.gstatic.com/firebasejs/4.8.2/firebase.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap.native/2.0.21/bootstrap-native-v4.min.js"></script>
+
+<script type="text/javascript" src="index.js"></script>
+</html>

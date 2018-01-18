@@ -19,7 +19,13 @@ function formFunc() {
 	var precio = document.getElementById("precio").value;
 	var imagen = document.getElementById("imgDir").value;
 
-	saveDish(nombre, description, precio, imagen);
+	try{
+		saveDish(nombre, description, precio, imagen);
+		alert("dish added");
+	}catch(error){
+		console.log("dish not added: " + error)
+	}
+	
 }
 
 var printDishes = function(){
@@ -37,23 +43,43 @@ query.on('value', function(snapshot){
 			var li = document.createElement("li");
 			var div = document.createElement("div");
 			var img = document.createElement("img");
-			var br = document.createElement("br");
+			var button = document.createElement("button")
+
+			button.setAttribute("id", childKey);
+			button.setAttribute("class", "btn btn-danger");
+			button.setAttribute("onclick", "deleteDish(this.id)");
+			button.appendChild(document.createTextNode("DeleteDish"));
 
 			img.src = childData.path;
 			img.height = 60;
 			img.alt = "Dish Image";
 
 			div.appendChild(img);
+			div.style.float = "right"
+			li.setAttribute("class", "list-group-item");
 			li.appendChild(div);
 			li.appendChild(document.createTextNode("Nombre: " + childData.name));
+			li.appendChild(document.createElement("br"))
 			li.appendChild(document.createTextNode("Description: " + childData.description));
+			li.appendChild(document.createElement("br"))
 			li.appendChild(document.createTextNode("Price: " + childData.precio));
-
+			li.appendChild(document.createElement("br"))
+			li.appendChild(button)
 			list.appendChild(li);
 	})
 });
 }
 
+var deleteDish = function(id){
+		database.ref('dishes/' + id).remove()
+		.then(function(){
+			alert("dish deleted");
+			console.log("dish deleted");
+		})
+		.catch(function(error){
+			console.log("failed to delte dish: "+error)
+		})
+	}
 
 var saveDish = function(pName, pDesc, pPrice, pPath){
 	database.ref('dishes/').push({name: pName,
@@ -90,6 +116,25 @@ function uploadImage(){
 	}else{
 		preview.src = "";
 	}
+
+	var accessar = function(){
+		var email = document.getElementById("email").value;
+		var password = document.getElementById("password").value;
+
+		firebase.auth().createUserWithEmailAndPassword(email, password)
+		.then(function(){
+			console.log("signedin");
+		})
+		.catch(function(error) {
+  // Handle Errors here.
+ 	 	var errorCode = error.code;
+ 		 var errorMessage = error.message;
+  // ...
+});
+
+	}
+
+	
 }
 
 
