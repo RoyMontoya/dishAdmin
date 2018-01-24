@@ -22,13 +22,17 @@
 		<a href="dishes.html">Dishes</a>
 	</li>
 </ul>
+<br/><br/><br/>
+<button class="btn btn-danger" onclick="signOut()">Signout</button>
+
+
 <div>
 	<input type="file" name="imagen" onchange="uploadImage()" /><br/><br/><br/>
 	<img src="" height="300" alt="Imagen de Platillo" id="imgdish">
 </div>
 
 <div>
-	<form onsubmit="formFunc()">
+	<form onsubmit="return formFunc(event)">
 		Nombre: <input class="form-control" type="text" name="nombre" id="nombre" required><br></br>
 		Descripcion: <textarea class="form-control" id="descripcion" required></textarea><br></br>
 		precio:	<input class="form-control" type="text" name="precio" id="precio" required><br></br>

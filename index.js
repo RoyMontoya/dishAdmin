@@ -1,42 +1,59 @@
 
 
- var config = {
-    apiKey: "AIzaSyALhmV1O7I2U7UYCtAKpwLNfdxoTJHs_-s",
-    authDomain: "admin-21d2a.firebaseapp.com",
-    databaseURL: "https://admin-21d2a.firebaseio.com",
-    projectId: "admin-21d2a",
-    storageBucket: "admin-21d2a.appspot.com",
-    messagingSenderId: "66519554701"
-  };
-  firebase.initializeApp(config);
+var config = {
+	apiKey: "AIzaSyALhmV1O7I2U7UYCtAKpwLNfdxoTJHs_-s",
+	authDomain: "admin-21d2a.firebaseapp.com",
+	databaseURL: "https://admin-21d2a.firebaseio.com",
+	projectId: "admin-21d2a",
+	storageBucket: "admin-21d2a.appspot.com",
+	messagingSenderId: "66519554701"
+};
+firebase.initializeApp(config);
 
 var database = firebase.database();
 
 
-function formFunc() {
+function formFunc(event) {
+	event.preventDefault();
 	var nombre = document.getElementById("nombre").value;
 	var description = document.getElementById("descripcion").value;
 	var precio = document.getElementById("precio").value;
 	var imagen = document.getElementById("imgDir").value;
 
-	try{
-		saveDish(nombre, description, precio, imagen);
-		alert("dish added");
-	}catch(error){
-		console.log("dish not added: " + error)
+	saveDish(nombre, description, precio, imagen);
+	return false;
+}
+
+firebase.auth().onAuthStateChanged(function(user){
+	if(user){
+		console.log("autorized");
+	} else {
+		console.log("not autorized")
+		if(window.location.pathname !== "/index.html"){
+			window.location = "index.html"	
+		}
+
 	}
-	
+});
+
+var signOut = function(){
+	firebase.auth().signOut().then(function() {
+		console.log("sesion terminada");
+		window.location = "index.html"
+	}).catch(function(error) {
+		console.log("Error at signOut "+ error);
+	});
 }
 
 var printDishes = function(){
 	var query = database.ref('dishes/');
 	
 
-query.on('value', function(snapshot){
-	var list = document.getElementById("list");
-	snapshot.forEach(function(childSnapshot){
-		console.log(childSnapshot.key);
-		console.log(childSnapshot.val());
+	query.on('value', function(snapshot){
+		var list = document.getElementById("list");
+		snapshot.forEach(function(childSnapshot){
+			console.log(childSnapshot.key);
+			console.log(childSnapshot.val());
 			var childKey = childSnapshot.key;
 			var childData = childSnapshot.val();
 
@@ -66,27 +83,34 @@ query.on('value', function(snapshot){
 			li.appendChild(document.createElement("br"))
 			li.appendChild(button)
 			list.appendChild(li);
-	})
-});
+		})
+	});
 }
 
 var deleteDish = function(id){
-		database.ref('dishes/' + id).remove()
-		.then(function(){
-			alert("dish deleted");
-			console.log("dish deleted");
-		})
-		.catch(function(error){
-			console.log("failed to delte dish: "+error)
-		})
-	}
+	database.ref('dishes/' + id).remove()
+	.then(function(){
+		alert("dish deleted");
+		console.log("dish deleted");
+	})
+	.catch(function(error){
+		console.log("failed to delte dish: "+error)
+	})
+}
 
 var saveDish = function(pName, pDesc, pPrice, pPath){
 	database.ref('dishes/').push({name: pName,
 		description: pDesc,
 		precio: pPrice,
 		path: pPath,
-		quantity: 0});
+		quantity: 0})
+	.then(function(){
+		alert("dish added");
+		window.location = addDish.html
+	})
+	.catch(function(error){
+		alert("could not add dish " + error);
+	});
 }
 
 var storage = firebase.storage();
@@ -116,25 +140,27 @@ function uploadImage(){
 	}else{
 		preview.src = "";
 	}
+	
+}
 
-	var accessar = function(){
-		var email = document.getElementById("email").value;
-		var password = document.getElementById("password").value;
 
-		firebase.auth().createUserWithEmailAndPassword(email, password)
-		.then(function(){
-			console.log("signedin");
-		})
-		.catch(function(error) {
+var accessar = function(){
+	var email = document.getElementById("email").value;
+	var password = document.getElementById("password").value;
+
+	firebase.auth().signInWithEmailAndPassword(email, password)
+	.then(function(){
+		console.log("signedin");
+		window.location = "addDish.html"
+	})
+	.catch(function(error) {
   // Handle Errors here.
- 	 	var errorCode = error.code;
- 		 var errorMessage = error.message;
+  var errorCode = error.code;
+  var errorMessage = error.message;
+  console.log(errorMessage + " " + errorCode);
   // ...
 });
 
-	}
-
-	
 }
 
 
